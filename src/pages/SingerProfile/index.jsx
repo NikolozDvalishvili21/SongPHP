@@ -22,8 +22,8 @@ export const SingerPage = () => {
           <HeaderBlock />
           {/* <SocialsBlock /> */}
           <AboutBlock />
-          <LocationBlock />
-          <EmailListBlock />
+          {/* <LocationBlock /> */}
+          {/* <EmailListBlock /> */}
         </motion.div>
         <Footer />
       </div>
@@ -75,7 +75,7 @@ const HeaderBlock = () => (
       href="#"
       className="flex items-center gap-1 text-red-300 hover:underline"
     >
-      Contact me <FiArrowRight />
+      {/* Contact me <FiArrowRight /> */}
     </a>
   </Block>
 );

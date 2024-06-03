@@ -8,11 +8,11 @@ const PageOfSingers = () => {
     <>
       <CollapsibleExample />
       <div className="overflow-x-auto p-8 font-tkt">
-        <Table>
+        <Table style={{fontSize: "17px"}}>
           <Table.Head className="dark:bg-black" style={{backgroundColor: "black", color: "black" }}>
-            <Table.HeadCell className="p-6">Artist</Table.HeadCell>
-            <Table.HeadCell>Top Album</Table.HeadCell>
-            <Table.HeadCell>Age</Table.HeadCell>
+            <Table.HeadCell className="p-6" style={{fontSize: "17px"}}>Artist</Table.HeadCell>
+            <Table.HeadCell style={{fontSize: "17px"}}>Top Album</Table.HeadCell>
+            <Table.HeadCell style={{fontSize: "17px"}}>Age</Table.HeadCell>
             <Table.HeadCell>
               <span className="sr-only">Edit</span>
             </Table.HeadCell>
