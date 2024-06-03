@@ -1,0 +1,17 @@
+.singers-cont {
+  padding-top: 90px;
+  padding-bottom: 120px;
+  display: flex;
+  justify-content: space-around;
+  gap: 30px;
+  align-items: center;
+}
+
+.singers-content {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+.top-ones {
+  padding-top: 20px;
+}

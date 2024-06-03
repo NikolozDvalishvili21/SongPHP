@@ -1,0 +1,14 @@
+
+
+logo {
+  transition: 0.3s ease;
+}
+
+logo:hover {
+  scale: 1.1;
+}
+
+.cont {
+  display: flex;
+  justify-content: center;
+}
