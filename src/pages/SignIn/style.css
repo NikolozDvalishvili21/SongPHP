@@ -35,12 +35,6 @@
     box-shadow: 0 0 8px 2px rgba(25, 86, 161, 0.5);
 }
 
-.sign_in:hover {
-    scale: 1.03;
-    background-color: #FF2A0A;
-    box-shadow: 0 0 8px 2px #FF2A0A;
-}
-
 .header {
     text-align: center;
     font-size: 30px;

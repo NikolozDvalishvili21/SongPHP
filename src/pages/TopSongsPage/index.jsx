@@ -1,81 +1,69 @@
 import React from "react";
 import CollapsibleExample from "../../components/Navbar";
 // import Stack from "react-bootstrap/Stack";
-import "../TopSongsPage/style.css";
+// import "../TopSongsPage/style.css";
 import { Table } from "flowbite-react";
+import 'flowbite/dist/flowbite.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 
 const TopSongsPage = () => {
   return (
     <>
       <CollapsibleExample />
       <div className="overflow-x-auto p-8">
-        <Table>
-          <Table.Head className="dark:bg-black" style={{ color: "white" }}>
-            <Table.HeadCell className="p-6">Song</Table.HeadCell>
-            <Table.HeadCell>Album</Table.HeadCell>
-            <Table.HeadCell>Duration</Table.HeadCell>
-            <Table.HeadCell>
-              <span className="sr-only">Edit</span>
-            </Table.HeadCell>
-          </Table.Head>
-          <Table.Body>
-            <Table.Row className="dark:bg-white">
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-black p-6">
-                <div className="song-and-author">
-                  <h1>Nights</h1>
-                  <p>Frank Ocean</p>
-                </div>
-              </Table.Cell>
-              <Table.Cell>Blond</Table.Cell>
-              <Table.Cell>05:07</Table.Cell>
-              <Table.Cell>
-                <a
-                  href="#"
-                  className="font-medium text-orange-600 hover:underline"
-                >
-                  Play
-                </a>
-              </Table.Cell>
-            </Table.Row>
-            <Table.Row className="bg-black">
-              <Table.Cell className="whitespace-nowrap font-medium text-white p-6">
-                <div className="song-and-author">
-                  <h1>Fetti</h1>
-                  <p>Playboi Carti</p>
-                </div>
-              </Table.Cell>
-              <Table.Cell style={{ color: "white" }}>In Abundance</Table.Cell>
-              <Table.Cell style={{ color: "white" }}>05:16</Table.Cell>
-              <Table.Cell>
-                <a
-                  href="#"
-                  className="font-medium text-orange-600 hover:underline"
-                >
-                  Play
-                </a>
-              </Table.Cell>
-            </Table.Row>
-            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <Table.Cell className="whitespace-nowrap font-medium p-6">
-              <div className="song-and-author">
-                  <h1>2 Milli</h1>
-                  <p>Soulja Boy</p>
-                </div>
-              </Table.Cell>
-              <Table.Cell>Single</Table.Cell>
-              <Table.Cell>04:20</Table.Cell>
-              <Table.Cell>
-                <a
-                  href="#"
-                  className="font-medium text-orange-600 hover:underline"
-                >
-                  Play
-                </a>
-              </Table.Cell>
-            </Table.Row>
-          </Table.Body>
-        </Table>
-      </div>
+      <Table>
+        <Table.Head>
+          <Table.HeadCell>Song</Table.HeadCell>
+          <Table.HeadCell>Color</Table.HeadCell>
+          <Table.HeadCell>Category</Table.HeadCell>
+          <Table.HeadCell>Price</Table.HeadCell>
+          <Table.HeadCell>
+            <span className="sr-only">Edit</span>
+          </Table.HeadCell>
+        </Table.Head>
+        <Table.Body className="divide-y">
+          <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+              {'Apple MacBook Pro 17"'}
+            </Table.Cell>
+            <Table.Cell>Sliver</Table.Cell>
+            <Table.Cell>Laptop</Table.Cell>
+            <Table.Cell>$2999</Table.Cell>
+            <Table.Cell>
+              <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+                Edit
+              </a>
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+              Microsoft Surface Pro
+            </Table.Cell>
+            <Table.Cell>White</Table.Cell>
+            <Table.Cell>Laptop PC</Table.Cell>
+            <Table.Cell>$1999</Table.Cell>
+            <Table.Cell>
+              <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+                Edit
+              </a>
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">Magic Mouse 2</Table.Cell>
+            <Table.Cell>Black</Table.Cell>
+            <Table.Cell>Accessories</Table.Cell>
+            <Table.Cell>$99</Table.Cell>
+            <Table.Cell>
+              <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+                Edit
+              </a>
+            </Table.Cell>
+          </Table.Row>
+        </Table.Body>
+      </Table>
+    </div>
     </>
   );
 };
