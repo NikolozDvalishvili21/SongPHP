@@ -1,16 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
-// import Navbar from "react-bootstrap/Navbar";
-// import NavDropdown from "react-bootstrap/NavDropdown";
 import { Link } from "react-router-dom";
 import logo from "../../icons/earbuds.png";
-// import 'bootstrap/dist/css/bootstrap.min.css';
-import "../Navbar/style.css";
-// import Link from "next/link";
 import { Navbar } from "flowbite-react";
+import "../Navbar/style.css";
 
 const CollapsibleExample = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const signedInUser = localStorage.getItem("user");
+    if (signedInUser) {
+      setUser(JSON.parse(signedInUser));
+    }
+  }, []);
+
+  const handleSignOut = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+  };
+
   const handleScroll = (targetId) => {
     const element = document.getElementById(targetId);
     if (element) {
@@ -40,12 +50,25 @@ const CollapsibleExample = () => {
           <Navbar.Link href="#TopSongs" as={Link} to="/topsongs">
             Top Songs
           </Navbar.Link>
-          <Navbar.Link href="#SignIn" as={Link} to="/signin">
-            Sign In
-          </Navbar.Link>
-          <Navbar.Link href="#SignIn" as={Link} to="/signup">
-            Sign Up
-          </Navbar.Link>
+          {user ? (
+            <>
+              <Navbar.Link href="#" disabled>
+                {user.email}
+              </Navbar.Link>
+              <Navbar.Link href="#" onClick={handleSignOut}>
+                Sign Out
+              </Navbar.Link>
+            </>
+          ) : (
+            <>
+              <Navbar.Link href="#SignIn" as={Link} to="/signin">
+                Sign In
+              </Navbar.Link>
+              <Navbar.Link href="#SignIn" as={Link} to="/signup">
+                Sign Up
+              </Navbar.Link>
+            </>
+          )}
         </Navbar.Collapse>
       </Navbar>
     </div>
