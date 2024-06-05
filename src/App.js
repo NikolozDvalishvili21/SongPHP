@@ -10,6 +10,7 @@ import SignUp from "./pages/SignUp";
 import TopSongsPage from "./pages/TopSongsPage";
 import TopSingersPage from "./pages/TopSingersPage"
 import SingerPage from "./pages/SingerProfile";
+import AdminPanel from "./pages/AdminPanel"; 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   const [loading, setLoading] = useState(false);
@@ -53,6 +54,7 @@ function App() {
               <Route path="/topsongs" element={<TopSongsPage />} />
               <Route path="/topsingers" element={<TopSingersPage />} />
               <Route path="/singer" element={<SingerPage />} />
+              <Route path="/admin" element={<AdminPanel />} />
             </Routes>
           </div>
         )}

@@ -44,10 +44,16 @@ const SignIn = () => {
 
       if (response.data.status === "success") {
         if (!isSignUp) {
-          localStorage.setItem("user", JSON.stringify(response.data.user));
-          setUser(response.data.user);
+          const user = response.data.user;
+          localStorage.setItem("user", JSON.stringify(user));
+          setUser(user);
           setModali(false);
-          navigate("/");
+          
+          if (user.role === 1) {
+            navigate("/admin");
+          } else {
+            navigate("/");
+          }
         }
       } else {
         console.error(response.data.message);
