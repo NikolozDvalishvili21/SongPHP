@@ -8,9 +8,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import TopSongsPage from "./pages/TopSongsPage";
-import TopSingersPage from "./pages/TopSingersPage"
+import TopSingersPage from "./pages/TopSingersPage";
 import SingerPage from "./pages/SingerProfile";
-import AdminPanel from "./pages/AdminPanel"; 
+import AdminPanel from "./pages/AdminPanel";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   const [loading, setLoading] = useState(false);

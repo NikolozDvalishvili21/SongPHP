@@ -1,91 +1,55 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import CollapsibleExample from "../../components/Navbar";
 import { Table } from "flowbite-react";
-// import "../TopSongsPage/style.css"
+import axios from "axios";
 
 const PageOfSingers = () => {
+  const [singers, setSingers] = useState([]);
+
+  useEffect(() => {
+    const fetchSingers = async () => {
+      try {
+        const response = await axios.get('http://localhost/Project/get_singers.php');
+        if (response.data.status === 'success') {
+          setSingers(response.data.singers);
+        } else {
+          console.error('Error fetching singers:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching singers:', error);
+      }
+    };
+
+    fetchSingers();
+  }, []);
+
   return (
     <>
       <CollapsibleExample />
       <div className="overflow-x-auto p-8 font-tkt">
-        <Table style={{fontSize: "17px"}}>
-          <Table.Head className="dark:bg-black" style={{backgroundColor: "black", color: "black" }}>
-            <Table.HeadCell className="p-6" style={{fontSize: "17px"}}>Artist</Table.HeadCell>
-            <Table.HeadCell style={{fontSize: "17px"}}>Top Album</Table.HeadCell>
-            <Table.HeadCell style={{fontSize: "17px"}}>Age</Table.HeadCell>
-            <Table.HeadCell>
-              <span className="sr-only">Edit</span>
+        <Table style={{ fontSize: "17px" }}>
+          <Table.Head>
+            <Table.HeadCell className="p-6" style={{ fontSize: "17px", backgroundColor: "black", color: "white" }}>Artist</Table.HeadCell>
+            <Table.HeadCell style={{ fontSize: "17px", backgroundColor: "black", color: "white" }}>Top Album</Table.HeadCell>
+            <Table.HeadCell style={{ fontSize: "17px", backgroundColor: "black", color: "white" }}>Age</Table.HeadCell>
+            <Table.HeadCell style={{ backgroundColor: "black", color: "white" }}>
             </Table.HeadCell>
           </Table.Head>
           <Table.Body>
-            <Table.Row className="dark:bg-white">
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-black p-6">
-                <div className="song-and-author">
-                  <p>Frank Ocean</p>
-                </div>
-              </Table.Cell>
-              <Table.Cell>Blond</Table.Cell>
-              <Table.Cell>30</Table.Cell>
-              <Table.Cell>
-                <a
-                  href="#"
-                  className="font-medium text-orange-600 hover:underline"
-                >
-                  See Profile
-                </a>
-              </Table.Cell>
-            </Table.Row>
-            <Table.Row className="bg-black">
-              <Table.Cell className="whitespace-nowrap font-medium text-white p-6">
-                <div className="song-and-author">
-                  <p>Playboi Carti</p>
-                </div>
-              </Table.Cell>
-              <Table.Cell style={{ color: "white" }}>Die Lit</Table.Cell>
-              <Table.Cell style={{ color: "white" }}>27</Table.Cell>
-              <Table.Cell>
-                <a
-                  href="#"
-                  className="font-medium text-orange-600 hover:underline"
-                >
-                  See Profile
-                </a>
-              </Table.Cell>
-            </Table.Row>
-            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <Table.Cell className="whitespace-nowrap font-medium p-6 text-black">
-                <div className="song-and-author">
-                  <p>Soulja Boy</p>
-                </div>
-              </Table.Cell>
-              <Table.Cell>SouljaBoyTellEm</Table.Cell>
-              <Table.Cell>34</Table.Cell>
-              <Table.Cell>
-                <a
-                  href="#"
-                  className="font-medium text-orange-600 hover:underline"
-                >
-                  See Profile
-                </a>
-              </Table.Cell>
-            </Table.Row>
-            <Table.Row className="bg-black dark:border-gray-700 dark:bg-gray-800">
-              <Table.Cell className="whitespace-nowrap font-medium p-6 text-black">
-                <div className="song-and-author" style={{color: "white"}}>
-                  <p>Travis Scott</p>
-                </div>
-              </Table.Cell>
-              <Table.Cell style={{color: "white"}}>SouljaBoyTellEm</Table.Cell>
-              <Table.Cell style={{color: "white"}}>34</Table.Cell>
-              <Table.Cell>
-                <a
-                  href="#"
-                  className="font-medium text-orange-600 hover:underline"
-                >
-                  See Profile
-                </a>
-              </Table.Cell>
-            </Table.Row>
+            {singers.map((singer, index) => (
+              <Table.Row key={index} className={index % 2 === 0 ? "bg-white dark:bg-gray-800" : "bg-black dark:bg-gray-700"}>
+                <Table.Cell className="whitespace-nowrap font-medium p-6">
+                  <div className="song-and-author">
+                    <p style={{ color: index % 2 === 0 ? "black" : "white" }}>{singer.FirstName} {singer.LastName}</p>
+                  </div>
+                </Table.Cell>
+                <Table.Cell style={{ color: index % 2 === 0 ? "black" : "white" }}>{singer.Top_Album}</Table.Cell>
+                <Table.Cell style={{ color: index % 2 === 0 ? "black" : "white" }}>{singer.Age}</Table.Cell>
+                <Table.Cell>
+                  <a href="#" className="font-medium text-orange-600 hover:underline">See Profile</a>
+                </Table.Cell>
+              </Table.Row>
+            ))}
           </Table.Body>
         </Table>
       </div>

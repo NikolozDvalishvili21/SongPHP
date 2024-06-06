@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
-import { Link } from "react-router-dom";
-import logo from "../../icons/earbuds.png";
 import { Navbar } from "flowbite-react";
+import logo from "../../icons/earbuds.png";
 import "../Navbar/style.css";
 
 const CollapsibleExample = () => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const signedInUser = localStorage.getItem("user");
@@ -19,6 +20,7 @@ const CollapsibleExample = () => {
   const handleSignOut = () => {
     localStorage.removeItem("user");
     setUser(null);
+    navigate("/");
   };
 
   const handleScroll = (targetId) => {
@@ -31,23 +33,23 @@ const CollapsibleExample = () => {
   return (
     <div className="padded" style={{ paddingLeft: "20px", paddingRight: "20px" }}>
       <Navbar fluid>
-        <Navbar.Brand as={Link} href="#Home" to="/">
+        <Navbar.Brand as={Link} to="/">
           <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-black flex-row">
             Songify
           </span>
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse style={{ paddingBottom: "20px" }}>
-          <Navbar.Link href="#" active>
+          <Navbar.Link as={Link} to="/">
             Home
           </Navbar.Link>
-          <Navbar.Link as={Link} href="#">
+          <Navbar.Link as={Link} to="#">
             About
           </Navbar.Link>
-          <Navbar.Link href="#TopSingers" as={Link} to="/topsingers">
+          <Navbar.Link as={Link} to="/topsingers">
             Top Singers
           </Navbar.Link>
-          <Navbar.Link href="#TopSongs" as={Link} to="/topsongs">
+          <Navbar.Link as={Link} to="/topsongs">
             Top Songs
           </Navbar.Link>
           {user ? (
@@ -61,10 +63,10 @@ const CollapsibleExample = () => {
             </>
           ) : (
             <>
-              <Navbar.Link href="#SignIn" as={Link} to="/signin">
+              <Navbar.Link as={Link} to="/signin">
                 Sign In
               </Navbar.Link>
-              <Navbar.Link href="#SignIn" as={Link} to="/signup">
+              <Navbar.Link as={Link} to="/signup">
                 Sign Up
               </Navbar.Link>
             </>

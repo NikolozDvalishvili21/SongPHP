@@ -7,9 +7,6 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const SignIn = () => {
-  const [toggle, setToggle] = useState(false);
-  const [modali, setModali] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -42,18 +39,21 @@ const SignIn = () => {
         }
       );
 
+      console.log("Response:", response.data);
+
       if (response.data.status === "success") {
-        if (!isSignUp) {
-          const user = response.data.user;
-          localStorage.setItem("user", JSON.stringify(user));
-          setUser(user);
-          setModali(false);
-          
-          if (user.role === 1) {
-            navigate("/admin");
-          } else {
-            navigate("/");
-          }
+        const user = response.data.user;
+        console.log("User data received:", user);
+        localStorage.setItem("user", JSON.stringify(user));
+        setUser(user);
+
+        // Check user role and navigate accordingly
+        if (user.roles === '1') {
+          console.log("Navigating to admin panel");
+          navigate("/admin");
+        } else {
+          console.log("Navigating to home page");
+          navigate("/");
         }
       } else {
         console.error(response.data.message);
