@@ -1,100 +1,57 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import CollapsibleExample from "../../components/Navbar";
-// import Stack from "react-bootstrap/Stack";
-// import "../TopSongsPage/style.css";
 import { Table } from "flowbite-react";
+import axios from "axios";
 import "flowbite/dist/flowbite.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 const TopSongsPage = () => {
+  const [songs, setSongs] = useState([]);
+
+  useEffect(() => {
+    const fetchSongs = async () => {
+      try {
+        const response = await axios.get('http://localhost/Project/get_songs.php');
+        if (response.data.status === 'success') {
+          setSongs(response.data.songs);
+        } else {
+          console.error('Error fetching songs:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching songs:', error);
+      }
+    };
+
+    fetchSongs();
+  }, []);
+
   return (
     <>
       <CollapsibleExample />
-      <div className="overflow-x-auto p-8">
+      <div className="overflow-x-auto p-8 font-tkt">
         <Table style={{ fontSize: "17px" }}>
           <Table.Head>
-            <Table.HeadCell style={{ fontSize: "17px" }}>Song</Table.HeadCell>
-            <Table.HeadCell style={{ fontSize: "17px" }}>Album</Table.HeadCell>
-            <Table.HeadCell style={{ fontSize: "17px" }}>
-              Duration
-            </Table.HeadCell>
-            <Table.HeadCell>
-              <span className="sr-only">Play</span>
-            </Table.HeadCell>
+            <Table.HeadCell className="p-6" style={{ fontSize: "17px", backgroundColor: "black", color: "white" }}>Song</Table.HeadCell>
+            <Table.HeadCell style={{ fontSize: "17px", backgroundColor: "black", color: "white" }}>Artist</Table.HeadCell>
+            <Table.HeadCell style={{ fontSize: "17px", backgroundColor: "black", color: "white" }}>Album</Table.HeadCell>
+            <Table.HeadCell style={{ fontSize: "17px", backgroundColor: "black", color: "white" }}>Duration</Table.HeadCell>
+            <Table.HeadCell style={{ backgroundColor: "black", color: "white" }}></Table.HeadCell>
           </Table.Head>
-          <Table.Body className="">
-            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                <div className="song-author">
-                  <h1 style={{ fontWeight: "700" }}>Nights</h1>
-                  <h1>Frank Ocean</h1>
-                </div>
-              </Table.Cell>
-              <Table.Cell>Blond</Table.Cell>
-              <Table.Cell>05:16</Table.Cell>
-              <Table.Cell>
-                <a
-                  href="#"
-                  className="font-medium text-orange-600 hover:underline dark:text-cyan-500"
-                >
-                  Play
-                </a>
-              </Table.Cell>
-            </Table.Row>
-            <Table.Row className="bg-black text-white dark:border-gray-700 dark:bg-gray-800">
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                <div className="song-author" style={{color: "white"}}>
-                  <h1 style={{ fontWeight: "700" }}>Sicko Mode</h1>
-                  <h1>Travis Scott</h1>
-                </div>
-              </Table.Cell>
-              <Table.Cell>Astroworld</Table.Cell>
-              <Table.Cell>05:13</Table.Cell>
-              <Table.Cell>
-                <a
-                  href="#"
-                  className="font-medium text-orange-600 hover:underline dark:text-cyan-500"
-                >
-                  Play
-                </a>
-              </Table.Cell>
-            </Table.Row>
-            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-              <div className="song-author" style={{color: "black"}}>
-                  <h1 style={{ fontWeight: "700" }}>Bullet From A Gun</h1>
-                  <h1>Skepta</h1>
-                </div>
-              </Table.Cell>
-              <Table.Cell>Ignorance Is Bliss</Table.Cell>
-              <Table.Cell>02:52</Table.Cell>
-              <Table.Cell>
-                <a
-                  href="#"
-                  className="font-medium text-orange-600 hover:underline dark:text-cyan-500"
-                >
-                  Play
-                </a>
-              </Table.Cell>
-            </Table.Row>
-            <Table.Row className="bg-black text-white dark:border-gray-700 dark:bg-gray-800">
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                <div className="song-author" style={{color: "white"}}>
-                  <h1 style={{ fontWeight: "700" }}>PRIDE</h1>
-                  <h1>Kendrick Lamar</h1>
-                </div>
-              </Table.Cell>
-              <Table.Cell>DAMN.</Table.Cell>
-              <Table.Cell>04:36</Table.Cell>
-              <Table.Cell>
-                <a
-                  href="#"
-                  className="font-medium text-orange-600 hover:underline dark:text-cyan-500"
-                >
-                  Play
-                </a>
-              </Table.Cell>
-            </Table.Row>
+          <Table.Body>
+            {songs.map((song, index) => (
+              <Table.Row key={index} className={index % 2 === 0 ? "bg-white dark:bg-gray-800" : "bg-black dark:bg-gray-700"}>
+                <Table.Cell className="whitespace-nowrap font-medium p-6">
+                  <div className="song-and-author">
+                    <p style={{ color: index % 2 === 0 ? "black" : "white" }}>{song.SongName}</p>
+                  </div>
+                </Table.Cell>
+                <Table.Cell style={{ color: index % 2 === 0 ? "black" : "white" }}>{song.FirstName} {song.LastName}</Table.Cell>
+                <Table.Cell style={{ color: index % 2 === 0 ? "black" : "white" }}>{song.AlbumTitle}</Table.Cell>
+                <Table.Cell style={{ color: index % 2 === 0 ? "black" : "white" }}>{song.Duration}</Table.Cell>
+                <Table.Cell>
+                  <a href="#" className="font-medium text-orange-600 hover:underline">See Profile</a>
+                </Table.Cell>
+              </Table.Row>
+            ))}
           </Table.Body>
         </Table>
       </div>
