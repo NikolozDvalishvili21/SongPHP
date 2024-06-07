@@ -4,11 +4,12 @@
     justify-content: space-around;
     align-items: center;
     background: linear-gradient(to right, #2563eb, #4f46e5);;
-    width: 13%;
+    width: 20%;
     padding: 12px;
     color: white;
     border-radius: 10px;
     transition: 0.3s ease;
+    height: auto;
     /* cursor: pointer; */
 }
 
