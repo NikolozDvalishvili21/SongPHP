@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   CCard,
   CCardBody,
@@ -6,15 +6,32 @@ import {
   CCardImage,
   CButton,
 } from "@coreui/react";
-import ReactImg from "../../Images/lamar.jpg";
-import drake from "../../Images/drake.jpg";
-import ye from "../../Images/ye.jpg";
-import mosdef from "../../Images/mosdef.png";
 import "../Singers/style.css";
 import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Singers = () => {
+  const [topSingers, setTopSingers] = useState([]);
+
+  useEffect(() => {
+    const fetchTopSingersHome = async () => {
+      try {
+        const response = await axios.get('http://localhost/Project/top4_singers.php');
+        console.log('Response data:', response.data); // Log the response data to check its structure
+        if (response.data.status === 'success') {
+          setTopSingers(response.data.singers);
+        } else {
+          console.error('Error fetching top singers for home:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching top singers for home:', error);
+      }
+    };
+
+    fetchTopSingersHome();
+  }, []);
+
   return (
     <div className="singers-content">
       <h1
@@ -29,45 +46,17 @@ const Singers = () => {
         Top Singers
       </h1>
       <div className="singers-cont">
-        <CCard style={{ width: "18rem" }}>
-          <CCardImage orientation="top" src={ReactImg} />
-          <CCardBody>
-            <CCardTitle>Kendrick Lamar</CCardTitle>
-            <CButton color="primary" href="#">
-              See Profile
-            </CButton>
-          </CCardBody>
-        </CCard>
-        <CCard style={{ width: "18rem" }}>
-          <CCardImage orientation="top" src={drake} />
-          <CCardBody>
-            <CCardTitle>Drake</CCardTitle>
-            <Nav.Link href="#Singer" as={Link} to="/singer">
-              <CButton color="primary" href="#">
+        {topSingers.map((singer, index) => (
+          <CCard key={index} style={{ width: "18rem" }}>
+            <CCardImage orientation="top" src={singer.Picture} /> {/* Use the Picture property for singer images */}
+            <CCardBody>
+              <CCardTitle>{singer.FirstName} {singer.LastName}</CCardTitle>
+              <CButton color="primary" as={Link} to="/singer" href="#">
                 See Profile
               </CButton>
-            </Nav.Link>
-          </CCardBody>
-        </CCard>
-        <CCard style={{ width: "18rem" }}>
-          <CCardImage orientation="top" src={ye} />
-          <CCardBody>
-            <CCardTitle>Kanye West</CCardTitle>
-
-            <CButton color="primary" href="#">
-              See Profile
-            </CButton>
-          </CCardBody>
-        </CCard>
-        <CCard style={{ width: "18rem" }}>
-          <CCardImage orientation="top" src={mosdef} />
-          <CCardBody>
-            <CCardTitle>Mos Def</CCardTitle>
-            <CButton color="primary" href="#">
-              See Profile
-            </CButton>
-          </CCardBody>
-        </CCard>
+            </CCardBody>
+          </CCard>
+        ))}
       </div>
       <Nav.Link href="#TopSingers" as={Link} to="/topsingers">
         <button
