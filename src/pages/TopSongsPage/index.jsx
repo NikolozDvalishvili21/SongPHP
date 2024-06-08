@@ -47,8 +47,9 @@ const TopSongsPage = () => {
                 <Table.Cell style={{ color: index % 2 === 0 ? "black" : "white" }}>{song.FirstName} {song.LastName}</Table.Cell>
                 <Table.Cell style={{ color: index % 2 === 0 ? "black" : "white" }}>{song.AlbumTitle}</Table.Cell>
                 <Table.Cell style={{ color: index % 2 === 0 ? "black" : "white" }}>{song.Duration}</Table.Cell>
-                <Table.Cell>
-                  <a href="#" className="font-medium text-orange-600 hover:underline">See Profile</a>
+                <Table.Cell style={{display: "flex", gap: "20px"}}>
+                  <a href="#" className="font-medium text-orange-600 hover:underline">Play</a>
+                  <a href="#" className="font-medium text-orange-600 hover:underline">{" "}Like</a>
                 </Table.Cell>
               </Table.Row>
             ))}
