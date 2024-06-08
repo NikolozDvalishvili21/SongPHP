@@ -13,6 +13,7 @@ const SignIn = () => {
   });
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     const signedInUser = localStorage.getItem("user");
@@ -57,6 +58,7 @@ const SignIn = () => {
         }
       } else {
         console.error(response.data.message);
+        setMessage("User Does Not Exist!");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -106,6 +108,7 @@ const SignIn = () => {
             Sign In
           </button>
         </Form>
+        {message && <p style={{color: "red"}}>{message}</p>}
       </div>
     </>
   );

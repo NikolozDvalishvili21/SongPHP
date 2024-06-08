@@ -17,15 +17,20 @@ const Singers = () => {
   useEffect(() => {
     const fetchTopSingersHome = async () => {
       try {
-        const response = await axios.get('http://localhost/Project/top4_singers.php');
-        console.log('Response data:', response.data); // Log the response data to check its structure
-        if (response.data.status === 'success') {
+        const response = await axios.get(
+          "http://localhost/Project/top4_singers.php"
+        );
+        console.log("Response data:", response.data); // Log the response data to check its structure
+        if (response.data.status === "success") {
           setTopSingers(response.data.singers);
         } else {
-          console.error('Error fetching top singers for home:', response.data.message);
+          console.error(
+            "Error fetching top singers for home:",
+            response.data.message
+          );
         }
       } catch (error) {
-        console.error('Error fetching top singers for home:', error);
+        console.error("Error fetching top singers for home:", error);
       }
     };
 
@@ -48,12 +53,16 @@ const Singers = () => {
       <div className="singers-cont">
         {topSingers.map((singer, index) => (
           <CCard key={index} style={{ width: "18rem" }}>
-            <CCardImage orientation="top" src={singer.Picture} /> {/* Use the Picture property for singer images */}
+            <CCardImage orientation="top" src={singer.Picture} />{" "}
             <CCardBody>
-              <CCardTitle>{singer.FirstName} {singer.LastName}</CCardTitle>
-              <CButton color="primary" as={Link} to="/singer" href="#">
-                See Profile
-              </CButton>
+              <CCardTitle>
+                {singer.FirstName} {singer.LastName}
+              </CCardTitle>
+              <Nav.Link as={Link} to="/singer">
+                <CButton color="primary" href="#">
+                  See Profile
+                </CButton>
+              </Nav.Link>
             </CCardBody>
           </CCard>
         ))}
