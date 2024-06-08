@@ -37,20 +37,13 @@ const TopSongs = () => {
           <div className="content_songs">
             {topSongs.map((song, index) => (
               <div className="first-song" key={index}>
-                <div className="song-info">
+                <div className="song-info" style={{textAlign: "center"}}>
                   <div className="song-title">
                     <h2 style={{ fontSize: "20px", fontWeight: "700" }}>{song.SongName}</h2>
                   </div>
                   <div className="song-author">
                     <h4>{song.FirstName} {song.LastName}</h4>
                   </div>
-                </div>
-                <div className="play-button">
-                  <img
-                    src={play}
-                    style={{ width: "30px", height: "30px", cursor: "pointer" }}
-                    alt="Play Button"
-                  />
                 </div>
               </div>
             ))}
