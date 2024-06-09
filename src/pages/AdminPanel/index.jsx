@@ -4,6 +4,7 @@ import CollapsibleExample from "../../components/Navbar";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "../AdminPanel/style.css";
+import UserForm from "../../components/UserEdit";
 
 const AdminPanel = () => {
   const navigate = useNavigate();
@@ -11,7 +12,8 @@ const AdminPanel = () => {
   const [songs, setSongs] = useState([]);
   const [artist, setArtists] = useState([]);
   const [user, setUsers] = useState([]);
-  
+  const [selectedUser, setSelectedUser] = useState(null);
+
   const handleSignOut = () => {
     localStorage.removeItem("user");
     navigate("/");
@@ -116,8 +118,6 @@ const AdminPanel = () => {
     }
   };
 
-  
-
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
 
@@ -145,16 +145,16 @@ const AdminPanel = () => {
 
   const handleAlbumUpload = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
-  
+
     // Gather form data
     const formData = new FormData(event.target);
-  
+
     // Convert FormData to JSON object
     const jsonData = {};
     formData.forEach((value, key) => {
       jsonData[key] = value;
     });
-  
+
     // Send form data to server
     try {
       const response = await axios.post(
@@ -192,6 +192,47 @@ const AdminPanel = () => {
       console.error("Error uploading song:", error);
     }
   };
+
+  const handleEditUser = (user) => {
+    setSelectedUser({
+      id: user.id, // Use 'id' instead of 'userID'
+      email: user.email,
+      password: user.password,
+      roles: user.roles, // Use 'roles' instead of 'role'
+    });
+  };
+  
+  const handleUpdateUser = async (updatedUser) => {
+    try {
+      console.log('Updated user data:', updatedUser); // Debugging: log the data being sent
+      
+      // Rename keys to match what PHP script expects
+      const updatedUserData = {
+        id: updatedUser.userID,
+        email: updatedUser.email,
+        password: updatedUser.password,
+        roles: updatedUser.role
+      };
+  
+      const response = await axios.post(
+        "http://localhost/Project/admin/edit_info/update_users.php",
+        JSON.stringify(updatedUserData),
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+      console.log('Response data:', response.data);
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.id === updatedUserData.id ? { ...user, ...updatedUserData } : user
+        )
+      );
+      setSelectedUser(null);
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
+  };
+  
+  
+  
   
 
   return (
@@ -238,6 +279,7 @@ const AdminPanel = () => {
                 <tr>
                   <th>Title</th>
                   <th>Singer ID</th>
+                  <th>Edit</th>
                 </tr>
               </thead>
               <tbody>
@@ -245,6 +287,7 @@ const AdminPanel = () => {
                   <tr key={index}>
                     <td>{album.title}</td>
                     <td>{album.singer_id}</td>
+                    <td>Edit</td>
                   </tr>
                 ))}
               </tbody>
@@ -253,7 +296,11 @@ const AdminPanel = () => {
         </div>
         <hr />
         <div className="album_information">
-          <form action="" style={{ padding: "20px" }} onSubmit={handleSongUpload}>
+          <form
+            action=""
+            style={{ padding: "20px" }}
+            onSubmit={handleSongUpload}
+          >
             <h2 style={{ fontWeight: "700" }}>Upload Song:</h2>
             <br />
             <br />
@@ -298,6 +345,7 @@ const AdminPanel = () => {
                   <th>Singer ID</th>
                   <th>Album ID</th>
                   <th>Likes</th>
+                  <th>Edit</th>
                 </tr>
               </thead>
               <tbody>
@@ -308,6 +356,7 @@ const AdminPanel = () => {
                     <td>{songs.singer_id}</td>
                     <td>{songs.album_id}</td>
                     <td>{songs.likes}</td>
+                    <td>Edit</td>
                   </tr>
                 ))}
               </tbody>
@@ -373,7 +422,8 @@ const AdminPanel = () => {
                   <th>Description</th>
                   <th>Age</th>
                   <th>Top Album</th>
-                  <th>Operations</th>
+                  <th>Deletion</th>
+                  <th style={{ cursor: "pointer" }}>Edit</th>
                 </tr>
               </thead>
               <tbody>
@@ -391,6 +441,7 @@ const AdminPanel = () => {
                     >
                       Delete
                     </td>
+                    <td style={{ cursor: "pointer" }}>Edit</td>
                   </tr>
                 ))}
               </tbody>
@@ -407,7 +458,8 @@ const AdminPanel = () => {
                 <th>Email</th>
                 <th>Password</th>
                 <th>Roles</th>
-                <th>Operations</th>
+                <th>Deletion</th>
+                <th>Edit</th>
               </tr>
             </thead>
             <tbody>
@@ -423,10 +475,15 @@ const AdminPanel = () => {
                   >
                     Delete
                   </td>
+                  <td style={{ cursor: "pointer" }} onClick={() => handleEditUser(user)}>Edit</td>
                 </tr>
               ))}
             </tbody>
           </table>
+          <UserForm user={selectedUser} 
+  onUpdate={handleUpdateUser}
+  setUsers={setUsers}
+  setSelectedUser={setSelectedUser}/>
         </div>
       </section>
     </>

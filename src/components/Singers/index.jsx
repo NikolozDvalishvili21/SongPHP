@@ -67,7 +67,7 @@ const Singers = () => {
                 to={`/singer/${singer.singer_id}`}
                 onClick={() => handleProfileClick(singer.singer_id)}
               >
-                <CButton color="primary">
+                <CButton style={{color: "white", backgroundColor: "black"}}>
                   See Profile
                 </CButton>
               </Nav.Link>
