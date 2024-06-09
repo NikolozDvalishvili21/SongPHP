@@ -53,12 +53,12 @@ const Singers = () => {
       <div className="singers-cont">
         {topSingers.map((singer, index) => (
           <CCard key={index} style={{ width: "18rem" }}>
-            <CCardImage orientation="top" src={singer.Picture} />{" "}
+            <CCardImage orientation="top" src={singer.Picture} />
             <CCardBody>
               <CCardTitle>
                 {singer.FirstName} {singer.LastName}
               </CCardTitle>
-              <Nav.Link as={Link} to="/singer">
+              <Nav.Link as={Link} to={`/singer/${singer.singer_id}`}>
                 <CButton color="primary" href="#">
                   See Profile
                 </CButton>

@@ -3,7 +3,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import HomePage from "./pages/Home";
 import { useEffect, useState } from "react";
 import ScaleLoader from "react-spinners/ScaleLoader";
-// import AOS from 'aos'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -11,7 +10,7 @@ import TopSongsPage from "./pages/TopSongsPage";
 import TopSingersPage from "./pages/TopSingersPage";
 import SingerPage from "./pages/SingerProfile";
 import AdminPanel from "./pages/AdminPanel";
-// import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
   const [loading, setLoading] = useState(false);
 
@@ -22,10 +21,6 @@ function App() {
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
-
-  // useEffect(() => {
-  //   AOS.init({ duration: 1000 }); // Initialize AOS with a duration
-  // }, []);
 
   return (
     <Router>
@@ -53,7 +48,7 @@ function App() {
               <Route path="/signup" element={<SignUp />} />
               <Route path="/topsongs" element={<TopSongsPage />} />
               <Route path="/topsingers" element={<TopSingersPage />} />
-              <Route path="/singer" element={<SingerPage />} />
+              <Route path="/singer/:singer_id" element={<SingerPage />} />
               <Route path="/admin" element={<AdminPanel />} />
             </Routes>
           </div>
