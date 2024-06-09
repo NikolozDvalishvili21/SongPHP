@@ -4,13 +4,38 @@ import { twMerge } from "tailwind-merge";
 import { FiArrowRight, FiMail, FiMapPin } from "react-icons/fi";
 // import { SiGithub, SiTiktok, SiTwitter, SiYoutube } from "react-icons/si";
 import CollapsibleExample from "../../components/Navbar";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export const SingerPage = () => {
+  const [singerData, setSingerData] = useState(null);
+
+  const fetchSingerData = async () => {
+    try {
+      const singerId = localStorage.getItem("singerId");
+      const response = await axios.get(
+        `http://localhost/Project/get_singer_details.php?singerId=${singerId}`
+      );
+
+      if (response.status !== 200) {
+        throw new Error("Failed to fetch singer data");
+      }
+
+      const data = response.data;
+      setSingerData(data.singer);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSingerData();
+  }, []);
+
   return (
     <div className="random">
       <CollapsibleExample />
       <div className="min-h-screen bg-zinc-900 px-4 py-12 text-zinc-50">
-        {/* <Logo /> */}
         <motion.div
           initial="initial"
           animate="animate"
@@ -19,11 +44,8 @@ export const SingerPage = () => {
           }}
           className="mx-auto grid max-w-4xl grid-flow-dense grid-cols-12 gap-4"
         >
-          <HeaderBlock />
-          {/* <SocialsBlock /> */}
-          <AboutBlock />
-          {/* <LocationBlock /> */}
-          {/* <EmailListBlock /> */}
+          <HeaderBlock singerData={singerData} />
+          <AboutBlock singerData={singerData} />
         </motion.div>
         <Footer />
       </div>
@@ -31,7 +53,7 @@ export const SingerPage = () => {
   );
 };
 
-const Block = ({ className, ...rest }) => {
+const Block = ({ className, children, ...rest }) => {
   return (
     <motion.div
       variants={{
@@ -57,64 +79,41 @@ const Block = ({ className, ...rest }) => {
         className
       )}
       {...rest}
-    />
+    >
+      {children}
+    </motion.div>
   );
 };
 
-const HeaderBlock = () => (
+const HeaderBlock = ({ singerData }) => (
   <Block className="col-span-12 row-span-2 md:col-span-6">
     <img
       src="https://api.dicebear.com/8.x/lorelei-neutral/svg?seed=John"
       alt="avatar"
       className="mb-4 size-14 rounded-full"
     />
-    <h1 className="mb-12 text-4xl font-medium leading-tight">
-      Hi, I'm Drake.{" "}
-    </h1>
+    {singerData && (
+      <div>
+        <h1 className="mb-12 text-4xl font-medium leading-tight">
+          {singerData.FirstName} {singerData.LastName}
+        </h1>
+        <p className="text-xl">ID: {singerData.singer_id}</p>
+      </div>
+    )}
     <a
       href="#"
       className="flex items-center gap-1 text-red-300 hover:underline"
     >
-      {/* Contact me <FiArrowRight /> */}
+      Contact me
     </a>
   </Block>
 );
 
-const AboutBlock = () => (
+const AboutBlock = ({ singerData }) => (
   <Block className="col-span-12 text-3xl leading-snug">
-    <p>
-      Drake, the internationally acclaimed rapper, {""}
-      <span className="text-zinc-400">
-        singer, and songwriter, is renowned not just for his musical talents but
-        also for the immense passion he brings to his craft. His passion is
-        evident in several facets of his career and personal life.
-      </span>
-    </p>
+    {singerData && <p>{singerData.Description}</p>}
   </Block>
 );
-
-const Logo = () => {
-  // Temp logo from https://logoipsum.com/
-  return (
-    <svg
-      width="40"
-      height="auto"
-      viewBox="0 0 50 39"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="mx-auto mb-12 fill-zinc-50"
-    >
-      <path
-        d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z"
-        stopColor="#000000"
-      ></path>
-      <path
-        d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z"
-        stopColor="#000000"
-      ></path>
-    </svg>
-  );
-};
 
 const Footer = () => {
   return (

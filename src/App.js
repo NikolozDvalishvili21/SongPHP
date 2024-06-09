@@ -48,7 +48,7 @@ function App() {
               <Route path="/signup" element={<SignUp />} />
               <Route path="/topsongs" element={<TopSongsPage />} />
               <Route path="/topsingers" element={<TopSingersPage />} />
-              <Route path="/singer/:singer_id" element={<SingerPage />} />
+              <Route path="/singer/:singerId" element={<SingerPage />} />
               <Route path="/admin" element={<AdminPanel />} />
             </Routes>
           </div>

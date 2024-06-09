@@ -37,6 +37,10 @@ const Singers = () => {
     fetchTopSingersHome();
   }, []);
 
+  const handleProfileClick = (singerId) => {
+    localStorage.setItem("singerId", singerId);
+  };
+
   return (
     <div className="singers-content">
       <h1
@@ -58,8 +62,12 @@ const Singers = () => {
               <CCardTitle>
                 {singer.FirstName} {singer.LastName}
               </CCardTitle>
-              <Nav.Link as={Link} to={`/singer/${singer.singer_id}`}>
-                <CButton color="primary" href="#">
+              <Nav.Link
+                as={Link}
+                to={`/singer/${singer.singer_id}`}
+                onClick={() => handleProfileClick(singer.singer_id)}
+              >
+                <CButton color="primary">
                   See Profile
                 </CButton>
               </Nav.Link>
