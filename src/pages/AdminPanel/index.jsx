@@ -201,28 +201,30 @@ const AdminPanel = () => {
       roles: user.roles, // Use 'roles' instead of 'role'
     });
   };
-  
+
   const handleUpdateUser = async (updatedUser) => {
     try {
-      console.log('Updated user data:', updatedUser); // Debugging: log the data being sent
-      
+      console.log("Updated user data:", updatedUser); // Debugging: log the data being sent
+
       // Rename keys to match what PHP script expects
       const updatedUserData = {
         id: updatedUser.userID,
         email: updatedUser.email,
         password: updatedUser.password,
-        roles: updatedUser.role
+        roles: updatedUser.role,
       };
-  
+
       const response = await axios.post(
         "http://localhost/Project/admin/edit_info/update_users.php",
         JSON.stringify(updatedUserData),
-        { headers: { 'Content-Type': 'application/json' } }
+        { headers: { "Content-Type": "application/json" } }
       );
-      console.log('Response data:', response.data);
+      console.log("Response data:", response.data);
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
-          user.id === updatedUserData.id ? { ...user, ...updatedUserData } : user
+          user.id === updatedUserData.id
+            ? { ...user, ...updatedUserData }
+            : user
         )
       );
       setSelectedUser(null);
@@ -230,10 +232,6 @@ const AdminPanel = () => {
       console.error("Error updating user:", error);
     }
   };
-  
-  
-  
-  
 
   return (
     <>
@@ -279,7 +277,6 @@ const AdminPanel = () => {
                 <tr>
                   <th>Title</th>
                   <th>Singer ID</th>
-                  <th>Edit</th>
                 </tr>
               </thead>
               <tbody>
@@ -287,7 +284,6 @@ const AdminPanel = () => {
                   <tr key={index}>
                     <td>{album.title}</td>
                     <td>{album.singer_id}</td>
-                    <td>Edit</td>
                   </tr>
                 ))}
               </tbody>
@@ -345,7 +341,6 @@ const AdminPanel = () => {
                   <th>Singer ID</th>
                   <th>Album ID</th>
                   <th>Likes</th>
-                  <th>Edit</th>
                 </tr>
               </thead>
               <tbody>
@@ -356,7 +351,6 @@ const AdminPanel = () => {
                     <td>{songs.singer_id}</td>
                     <td>{songs.album_id}</td>
                     <td>{songs.likes}</td>
-                    <td>Edit</td>
                   </tr>
                 ))}
               </tbody>
@@ -422,8 +416,7 @@ const AdminPanel = () => {
                   <th>Description</th>
                   <th>Age</th>
                   <th>Top Album</th>
-                  <th>Deletion</th>
-                  <th style={{ cursor: "pointer" }}>Edit</th>
+
                 </tr>
               </thead>
               <tbody>
@@ -435,13 +428,7 @@ const AdminPanel = () => {
                     <td>{singer.Description}</td>
                     <td>{singer.Age}</td>
                     <td>{singer.Top_Album}</td>
-                    <td
-                      style={{ cursor: "pointer" }}
-                      onClick={() => handleDeleteArtist(singer.singer_id)}
-                    >
-                      Delete
-                    </td>
-                    <td style={{ cursor: "pointer" }}>Edit</td>
+                    
                   </tr>
                 ))}
               </tbody>
@@ -475,15 +462,22 @@ const AdminPanel = () => {
                   >
                     Delete
                   </td>
-                  <td style={{ cursor: "pointer" }} onClick={() => handleEditUser(user)}>Edit</td>
+                  <td
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleEditUser(user)}
+                  >
+                    Edit
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <UserForm user={selectedUser} 
-  onUpdate={handleUpdateUser}
-  setUsers={setUsers}
-  setSelectedUser={setSelectedUser}/>
+          <UserForm
+            user={selectedUser}
+            onUpdate={handleUpdateUser}
+            setUsers={setUsers}
+            setSelectedUser={setSelectedUser}
+          />
         </div>
       </section>
     </>
