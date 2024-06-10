@@ -13,6 +13,7 @@ const AdminPanel = () => {
   const [artist, setArtists] = useState([]);
   const [user, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedLiked, setSelectedLiked] = useState(null);
 
   const handleSignOut = () => {
     localStorage.removeItem("user");
@@ -88,6 +89,23 @@ const AdminPanel = () => {
     };
 
     fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    const fetchLiked = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost/Project/admin/get_info/get_likes.php"
+        );
+        console.log("Response data:", response.data);
+        setSelectedLiked(response.data);
+      } catch (error) {
+        console.error("Error fetching albums:", error);
+        setSelectedLiked([]);
+      }
+    };
+
+    fetchLiked();
   }, []);
 
   const handleDeleteUser = async (id) => {
@@ -416,7 +434,6 @@ const AdminPanel = () => {
                   <th>Description</th>
                   <th>Age</th>
                   <th>Top Album</th>
-
                 </tr>
               </thead>
               <tbody>
@@ -428,7 +445,6 @@ const AdminPanel = () => {
                     <td>{singer.Description}</td>
                     <td>{singer.Age}</td>
                     <td>{singer.Top_Album}</td>
-                    
                   </tr>
                 ))}
               </tbody>
@@ -441,12 +457,12 @@ const AdminPanel = () => {
           <table>
             <thead>
               <tr>
-                <th>User ID</th>
+                <th>ID</th>
                 <th>Email</th>
                 <th>Password</th>
                 <th>Roles</th>
                 <th>Deletion</th>
-                <th>Edit</th>
+                <th>Edition</th>
               </tr>
             </thead>
             <tbody>
@@ -478,6 +494,28 @@ const AdminPanel = () => {
             setUsers={setUsers}
             setSelectedUser={setSelectedUser}
           />
+        </div>
+        <div className="information" style={{ padding: "15px" }}>
+          <h2>Liked Songs</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>SongName</th>
+                <th>Created At</th>
+              </tr>
+            </thead>
+            <tbody>
+              {selectedLiked &&
+                selectedLiked.map((liked, index) => (
+                  <tr key={index}>
+                    <td>{liked.id}</td>
+                    <td>{liked.SongName}</td>
+                    <td>{liked.created_at}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
         </div>
       </section>
     </>
