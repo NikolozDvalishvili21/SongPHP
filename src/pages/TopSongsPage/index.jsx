@@ -4,6 +4,7 @@ import { Table } from "flowbite-react";
 import axios from "axios";
 import "flowbite/dist/flowbite.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import SearchComp from "../../components/Search";
 
 const TopSongsPage = () => {
   const [songs, setSongs] = useState([]);
@@ -11,9 +12,7 @@ const TopSongsPage = () => {
   useEffect(() => {
     const fetchSongs = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost/Project/get_songs.php"
-        );
+        const response = await axios.get("http://localhost/Project/get_songs.php");
         if (response.data.status === "success") {
           const updatedSongs = response.data.songs.map((song) => ({
             ...song,
@@ -33,12 +32,9 @@ const TopSongsPage = () => {
 
   const handleLike = async (songName, index) => {
     try {
-      const response = await axios.post(
-        "http://localhost/Project/like_song.php",
-        {
-          song_name: songName,
-        }
-      );
+      const response = await axios.post("http://localhost/Project/like_song.php", {
+        song_name: songName,
+      });
 
       if (response.data.status === "success") {
         const updatedSongs = [...songs];
@@ -55,12 +51,9 @@ const TopSongsPage = () => {
 
   const handleUnlike = async (songName, index) => {
     try {
-      const response = await axios.post(
-        "http://localhost/Project/unlike_song.php",
-        {
-          song_name: songName,
-        }
-      );
+      const response = await axios.post("http://localhost/Project/unlike_song.php", {
+        song_name: songName,
+      });
 
       if (response.data.status === "success") {
         const updatedSongs = [...songs];
@@ -75,14 +68,15 @@ const TopSongsPage = () => {
     }
   };
 
-
-  
-
+  const handleSearchResults = (results) => {
+    setSongs(results);
+  };
 
   return (
     <>
       <CollapsibleExample />
       <div className="overflow-x-auto p-8 font-tkt">
+        <SearchComp onSearchResults={handleSearchResults} />
         <Table style={{ fontSize: "17px" }}>
           <Table.Head>
             <Table.HeadCell
@@ -143,23 +137,16 @@ const TopSongsPage = () => {
                     </p>
                   </div>
                 </Table.Cell>
-                <Table.Cell
-                  style={{ color: index % 2 === 0 ? "black" : "white" }}
-                >
+                <Table.Cell style={{ color: index % 2 === 0 ? "black" : "white" }}>
                   {song.FirstName} {song.LastName}
                 </Table.Cell>
-                <Table.Cell
-                  style={{ color: index % 2 === 0 ? "black" : "white" }}
-                >
+                <Table.Cell style={{ color: index % 2 === 0 ? "black" : "white" }}>
                   {song.AlbumTitle}
                 </Table.Cell>
-                <Table.Cell
-                  style={{ color: index % 2 === 0 ? "black" : "white" }}
-                >
+                <Table.Cell style={{ color: index % 2 === 0 ? "black" : "white" }}>
                   {song.Duration}
                 </Table.Cell>
                 <Table.Cell style={{ display: "flex", gap: "20px" }}>
-                
                   {song.isLiked ? (
                     <a
                       href="#"
