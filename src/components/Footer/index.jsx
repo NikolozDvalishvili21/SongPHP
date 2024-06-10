@@ -13,7 +13,7 @@ export function FooterMine() {
   };
   return (
     <Footer container>
-      <div className="w-full text-center p-16 bg-#1956A1">
+      <div className="w-full text-center p-12 bg-#1956A1">
         <div className="w-full justify-between sm:flex sm:items-center sm:justify-between">
           <Nav.Link href="#home" as={Link} to="/">
             <Footer.Brand
